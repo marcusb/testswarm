@@ -9,7 +9,7 @@ CREATE TABLE `clients` (
   `useragent` tinytext NOT NULL,
   `ip` varchar(15) NOT NULL default '',
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -25,7 +25,7 @@ CREATE TABLE `jobs` (
   `name` varchar(255) NOT NULL default '',
   `status` tinyint(4) NOT NULL default '0',
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -44,7 +44,7 @@ CREATE TABLE `run_client` (
   `total` int(11) NOT NULL default '0',
   `results` text NOT NULL,
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime,
   PRIMARY KEY  (`run_id`,`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -62,7 +62,7 @@ CREATE TABLE `run_useragent` (
   `completed` int(11) NOT NULL default '0',
   `status` tinyint(4) NOT NULL default '0',
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime,
   PRIMARY KEY  (`run_id`,`useragent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -79,7 +79,7 @@ CREATE TABLE `runs` (
   `url` tinytext NOT NULL,
   `status` tinyint(4) NOT NULL default '0',
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -183,7 +183,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(255) NOT NULL default '',
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `created` datetime NOT NULL default '0000-00-00 00:00:00',
+  `created` datetime,
   `seed` double NOT NULL default '0',
   `password` varchar(40) NOT NULL default '',
   `auth` varchar(40) NOT NULL default '',
