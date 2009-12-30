@@ -29,9 +29,9 @@
 		}
 
 		if ( $type == "delete" ) {
-			header("Location: /user/" . $_SESSION['username'] . "/");
+			header("Location: " . $GLOBALS['contextpath'] . "/user/" . $_SESSION['username'] . "/");
 		} else {
-			header("Location: /job/$job_id/");
+			header("Location: " . $GLOBALS['contextpath'] . "/job/$job_id/");
 		}
 	}
 

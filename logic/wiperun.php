@@ -20,7 +20,7 @@
 			}
 		}
 
-		header("Location: /job/$job_id/");
+		header("Location: " . $GLOBALS['contextpath'] . "/job/$job_id/");
 	}
 
 	exit();
