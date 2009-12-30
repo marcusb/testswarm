@@ -3,7 +3,7 @@
 
 	if ( $_SESSION['username'] && $_SESSION['auth'] == 'yes' ) {
 		$username = $_SESSION['username'];
-		header("Location: /user/$username/");
+		header("Location: " . $GLOBALS['contextpath'] . "/user/$username/");
 		exit(); 
 	}
 
