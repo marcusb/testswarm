@@ -42,7 +42,7 @@ CREATE TABLE `run_client` (
   `fail` int(11) NOT NULL default '0',
   `error` int(11) NOT NULL default '0',
   `total` int(11) NOT NULL default '0',
-  `results` text NOT NULL,
+  `results` text,
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `created` datetime,
   PRIMARY KEY  (`run_id`,`client_id`)
