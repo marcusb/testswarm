@@ -68,7 +68,11 @@
 	$job_search = preg_replace("/[^a-zA-Z ]/", "", $_REQUEST['job']);
 	$job_search .= "%";
 
-	$browser_res = mysql_queryf("SELECT ua.id, ua.name, ua.engine, ua.os as os FROM jobs join users on jobs.user_id join runs on runs.job_id=jobs.id join run_useragent on run_useragent.run_id=runs.id join useragents ua on run_useragent.useragent_id=ua.id WHERE jobs.name LIKE %s AND users.name=%s AND jobs.user_id=users.id group by id order by name, os", $job_search, $search_user);
+	$search_result = mysql_queryf("SELECT jobs.name, jobs.status, jobs.id FROM jobs, users WHERE jobs.name LIKE %s AND users.name=%s AND jobs.user_id=users.id ORDER BY jobs.created DESC LIMIT 15;", $job_search, $search_user);
+
+	if ( mysql_num_rows($search_result) > 0 ) {
+
+	$browser_res = mysql_queryf("select ua.id, ua.name, ua.engine, ua.os as os from jobs join users on jobs.user_id join runs on runs.job_id=jobs.id join run_useragent on run_useragent.run_id=runs.id join useragents ua on run_useragent.useragent_id=ua.id where jobs.name like %s and users.name=%s and jobs.id >= (select jobs.id from jobs join users on jobs.user_id where jobs.name like %s and users.name=%s order by jobs.id desc limit 15,1) group by ua.id order by name, os", $job_search, $search_user, $job_search, $search_user);
 	$browsers = array();
 	while ($b = mysql_fetch_assoc($browser_res)) {
 	      array_push($browsers, $b);
@@ -86,10 +90,6 @@
 			$browser["os"] . '</span></div></th>';
 	}
 	$output .= "</tr>\n";
-
-	$search_result = mysql_queryf("SELECT jobs.name, jobs.status, jobs.id FROM jobs, users WHERE jobs.name LIKE %s AND users.name=%s AND jobs.user_id=users.id ORDER BY jobs.created DESC LIMIT 15;", $job_search, $search_user);
-
-	if ( mysql_num_rows($search_result) > 0 ) {
 
 	echo "<br/><h3>Recent Jobs:</h3><table class='results'><tbody>";
 
