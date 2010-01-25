@@ -91,6 +91,25 @@
 
 	if ( mysql_num_rows($search_result) > 0 ) {
 
+	$browser_res = mysql_queryf("select ua.id, ua.name, ua.engine, ua.os as os from jobs join users on jobs.user_id join runs on runs.job_id=jobs.id join run_useragent on run_useragent.run_id=runs.id join useragents ua on run_useragent.useragent_id=ua.id where jobs.name like %s and users.name=%s and jobs.id >= (select jobs.id from jobs join users on jobs.user_id where jobs.name like %s and users.name=%s order by jobs.id desc limit 15,1) group by ua.id order by name, os", $job_search, $search_user, $job_search, $search_user);
+	$browsers = array();
+	while ($b = mysql_fetch_assoc($browser_res)) {
+	      array_push($browsers, $b);
+	}
+
+	$output = "<tr><th></th>\n";
+	foreach ( $browsers as $browser ) {
+		$output .= '<th><div class="browser">' .
+			'<img src="' . $GLOBALS['contextpath'] . '/images/' . $browser["engine"] .
+			'.sm.png" class="browser-icon ' . $browser["engine"] .
+			'" alt="' . $browser["name"] . ', ' . $browser["os"] .
+			'" title="' . $browser["name"] . ', ' . $browser["os"] .
+			'"/><span class="browser-name">' .
+			preg_replace('/\w+ /', "", $browser["name"]) . ', ' .
+			$browser["os"] . '</span></div></th>';
+	}
+	$output .= "</tr>\n";
+
 	echo "<br/><h3>Recent Jobs:</h3><table class='results'><tbody>";
 
 	while ( $row = mysql_fetch_array($search_result) ) {
